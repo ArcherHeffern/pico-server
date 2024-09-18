@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Light Brightness Modifier</title>
+</head>
+
+<body>
+    <form id="brightnessForm" action="/light_brightness" method="get">
+        <input type="range" min="0" max="100" value="50" class="slider" id="slider" name="brightness">
+    </form>
+
+    <p id="output"></p>
+
+    <script>
+        const slider = document.getElementById("slider");
+        const form = document.getElementById("brightnessForm");
+        const output = document.getElementById("output");
+        async function try_get_brightness() {
+            let response = await fetch("/brightness", {
+                method: "GET"
+            });
+            if (!response.ok) {
+                return null
+            }
+            return response.text()
+        }
+
+        // Get State
+        try_get_brightness().then((body) => {
+            console.log(body)
+            if (!body) {
+                output.textContent = "[ERROR] Fetching light brightness"
+            } else {
+                output.textContent = body
+                const v = Number.parseInt(body)
+                slider.value = v
+            }
+
+        })
+
+
+        slider.addEventListener('change', (e) => {
+            e.preventDefault();
+            let v = slider.value
+            fetch(`/brightness?b=${v}`, {
+                method: "POST"
+            }).then((res) => {
+                if (!res.ok) {
+                    output.textContent = "Not ok"
+                }
+                const text = res.text().then((text) => {
+                    output.textContent = text;
+                })
+            })
+        })
+    </script>
+</body>
