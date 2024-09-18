@@ -1,14 +1,13 @@
-from dataclasses import dataclass, field
-from typing import ClassVar, Type
 from lib.http.types import ResponseBody, NoBody
 
-@dataclass
 class Response:
-    status_code: int
-    body: ResponseBody = NoBody()
-    headers: dict[str, str] = field(default_factory=dict) # type: ignore
-    http_version: str = "HTTP/1.1"
-    STATUS_CODE_TO_REASON: ClassVar[dict[int, str]] = {
+    def __init__(self, status_code: int, body: ResponseBody|None = None, headers: dict[str, str]|None = None, http_version: str = "HTTP/1.1"):
+        self.status_code: int = status_code
+        self.body: ResponseBody = body or NoBody()
+        self.headers: dict[str, str] = headers or {}
+        self.http_version: str = http_version
+
+    STATUS_CODE_TO_REASON: dict[int, str] = {
         100: "Continue",
         101: "Switching Protocols",
         200: "OK",
@@ -50,7 +49,6 @@ class Response:
         504: "Gateway Time-out",
         505: "HTTP Version not supported",
     }
-    # TODO: Support different response types
 
     def to_string(self) -> str:
         request_line = self.http_version + " " + str(self.status_code) + " " + Response.STATUS_CODE_TO_REASON[self.status_code]

@@ -3,27 +3,24 @@ from lib.http.request_builder import RequestBuilder
 from lib.http.request import Request
 from lib.http.response import Response
 from io import BytesIO
-from typing import TypeAlias, Callable, Optional 
 import services
 
 BUFFER_SIZE = 1024
 
 class Server:
 
-    Handler: TypeAlias = Callable[[Request], Response]
-
     def __init__(self):
-        self.routes: dict[tuple[str, Request.Method], Server.Handler] = {}
+        self.routes = {}
 
-    def add_route(self, route: str, method: Request.Method, handler: Callable[[Request], Response]):
+    def add_route(self, route: str, method: str, handler):
         self.routes[(route, method)] = handler
 
-    def add_routes(self, routes: dict[tuple[str, Request.Method], Handler]):
+    def add_routes(self, routes):
         for endpoint, handler in routes.items():
             route, method = endpoint
             self.add_route(route, method, handler)
 
-    def listen(self, ip = "127.0.0.1", port = 8080, callback: Optional[Callable[[], None]] = None):
+    def listen(self, ip = "127.0.0.1", port = 8080, callback = None):
         address = (ip, port)
         connection = socket()
         connection.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
@@ -48,7 +45,7 @@ class Server:
             client_socket.close()
 
         
-    def __read_request(self, client: socket) -> Optional[str]:
+    def __read_request(self, client: socket) -> str|None:
         services.logger.log("BEGIN reading request")
         request_buffer = BytesIO()
         while tmp := client.recv(BUFFER_SIZE): # Stuck here...
@@ -60,7 +57,7 @@ class Server:
         services.logger.log("END reading request")
         return request_str
 
-    def __request_handler(self, request: Optional[Request]) -> Response:
+    def __request_handler(self, request: Request|None) -> Response:
         if not request:
             return Response(400)
         handler = self.routes.get((request.url, request.method))

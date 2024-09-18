@@ -2,7 +2,7 @@ try:
     from machine import PWM, Pin
 except:
     ...
-from .light_manager import LightManager_I
+from src.managers.light_manager import LightManager_I
 from logger_client import LoggerClient
 
 class LightManager(LightManager_I):
