@@ -1,5 +1,5 @@
-from src.managers.light_manager_Impl import LightManager
-from src.managers.logger_client import LoggerClient
+from src.clients.light_manager_Impl import LightManager
+from src.modules.logger import LoggerClient
 
 class LightManager_D(LightManager):
     def __init__(self, pin, logger: LoggerClient, initial_brightness: int = 0):

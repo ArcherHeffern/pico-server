@@ -3,7 +3,7 @@ try:
 except:
     ...
 
-from src.managers.logger_client import LoggerClient
+from src.modules.logger import LoggerClient
 
 class LightManager:
     def __init__(self, pin, initial_brightness: int = 0):

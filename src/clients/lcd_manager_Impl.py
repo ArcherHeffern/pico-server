@@ -1,4 +1,4 @@
-from src.managers.logger_client import LoggerClient
+from src.modules.logger import LoggerClient
 try:
     from lib.display.lcd1602 import LCD1602
     from machine import Pin, I2C

@@ -1,15 +1,17 @@
-from src.endpoints import get_root, get_brightness, set_brightness, print_lcd
-from lib.http.server import Server
+from lib.http.HTTPServer import HTTPServer
+from src.resources.web import web_router
+from src.resources.lamp import lamp_router
+from src.resources.lcd import lcd_router
 
-app = Server()
+app = HTTPServer()
+
+app.use_router(web_router)
+app.use_router(lamp_router)
+app.use_router(lcd_router)
 
 app.add_static_path("static")
-app.add_route("/", "GET", get_root)
-app.add_route("/brightness", "GET", get_brightness)
-app.add_route("/brightness", "POST", set_brightness)
-app.add_route("/lcd", "POST", print_lcd)
 
 if __name__ == '__main__':
     ip = "127.0.0.1"
     port = 8080
-    app.listen(ip, port, lambda: print(f"Listening at {ip}:{port}"))
+    app.run(ip, port, lambda: print(f"Listening at {ip}:{port}"))

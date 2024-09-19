@@ -1,5 +1,5 @@
 from io import StringIO
-from src.managers.logger_client import LoggerClient
+from src.modules.logger import LoggerClient
 
 class LcdManager_D:
     def __init__(self, logger: LoggerClient):

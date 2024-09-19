@@ -1,9 +1,9 @@
 from config import ConfigFactory
-from src.managers.light_manager_Impl import LightManager
-from src.managers.light_manager_Dbg import LightManager_D
-from src.managers.lcd_manager_Impl import LcdManager
-from src.managers.lcd_manager_Dbg import LcdManager_D
-from src.managers.logger_client import LoggerClient
+from src.clients.light_manager_Impl import LightManager
+from src.clients.light_manager_Dbg import LightManager_D
+from src.clients.lcd_manager_Impl import LcdManager
+from src.clients.lcd_manager_Dbg import LcdManager_D
+from src.modules.logger import LoggerClient
 
 config = ConfigFactory.get_config("local")
 
