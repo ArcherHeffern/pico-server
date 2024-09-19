@@ -18,6 +18,9 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.vscode
+rasp.code-workspace
+test.py
 
 # Installer logs
 pip-log.txt

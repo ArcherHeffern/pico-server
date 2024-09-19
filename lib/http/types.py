@@ -1,8 +1,6 @@
-from typing import Type
 import json
-from abc import ABC, abstractmethod
 
-def select_body_from_content_type_header(content_type: str) -> Type['ResponseBody']:
+def select_body_from_content_type_header(content_type: str):
     content_type = content_type.split(";", 1)[0].strip()
     if "application/json":
         return JsonBody
@@ -15,14 +13,12 @@ def select_body_from_content_type_header(content_type: str) -> Type['ResponseBod
     return TextBody
 
 
-class ResponseBody(ABC):
+class ResponseBody:
     name: str
 
-    @abstractmethod
     def to_string(self) -> str:
         raise NotImplementedError()
     
-    @abstractmethod
     def from_string(self) -> str:
         raise NotImplementedError()
     

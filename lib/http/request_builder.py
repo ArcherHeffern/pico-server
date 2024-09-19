@@ -1,18 +1,17 @@
 from lib.http.request import Request
 from lib.http.parse_utils import ParseUtils
-from typing import Optional
 from services import logger
 
 class RequestBuilder:
     def __init__(self):
         self.__url: str = "/"
-        self.__method: Request.Method = "GET"
+        self.__method = "GET"
         self.__version: str = "HTTP/1.1"
         self.__headers: dict[str, str] = {} 
         self.__query_params: dict[str, str] = {}
         self.__body: str = ""
 
-    def from_string(self, request: str) -> Optional['Request']:
+    def from_string(self, request: str):
         lines = request.splitlines()
         request_line = lines[0]
         if not self.__parse_request_line(request_line):
@@ -39,7 +38,7 @@ class RequestBuilder:
             return False
         self.__version = tokens[2]
 
-        if method not in Request.Method.__args__[0].__args__:
+        if method not in Request.Methods:
             return False
         else:
             self.__method = method # type: ignore

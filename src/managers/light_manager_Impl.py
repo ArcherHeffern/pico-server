@@ -2,11 +2,11 @@ try:
     from machine import PWM, Pin
 except:
     ...
-from .light_manager import LightManager_I
-from logger_client import LoggerClient
 
-class LightManager(LightManager_I):
-    def __init__(self, pin, logger: LoggerClient, initial_brightness: int = 0):
+from src.managers.logger_client import LoggerClient
+
+class LightManager:
+    def __init__(self, pin, initial_brightness: int = 0):
         assert pin >= 0
         self.max_brightness = 75000
         self.med_brightness = 10000
