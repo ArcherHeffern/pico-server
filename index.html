@@ -5,16 +5,16 @@
     <title>Light Brightness Modifier</title>
 </head>
 
-<body>
-    <form id="brightnessForm" action="/light_brightness" method="get">
-        <input type="range" min="0" max="100" value="50" class="slider" id="slider" name="brightness">
-    </form>
+    <input type="range" min="0" max="100" value="50" class="slider" id="slider" name="brightness">
+
+    <input type="text" id="lcd_text_input" name="lcd_text_input">
 
     <p id="output"></p>
 
     <script>
         const slider = document.getElementById("slider");
         const form = document.getElementById("brightnessForm");
+        const lcd = document.getElementById("lcd_text_input")
         const output = document.getElementById("output");
         async function try_get_brightness() {
             let response = await fetch("/brightness", {
@@ -26,9 +26,16 @@
             return response.text()
         }
 
+        lcd.addEventListener("input", (e) => {
+            const text = lcd.value
+            fetch("/lcd?append=false", {
+                method: "POST",
+                body: text
+            })
+        })
+
         // Get State
         try_get_brightness().then((body) => {
-            console.log(body)
             if (!body) {
                 output.textContent = "[ERROR] Fetching light brightness"
             } else {
@@ -40,7 +47,7 @@
         })
 
 
-        slider.addEventListener('change', (e) => {
+        slider.addEventListener('input', (e) => {
             e.preventDefault();
             let v = slider.value
             fetch(`/brightness?b=${v}`, {
