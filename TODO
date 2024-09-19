@@ -2,3 +2,5 @@
 [ ] better way of specifying query string parameters
 [ ] parse forms and json
 [ ] dependency injection
+[ ] Why does URL need to be prefixed with http
+[ ] Multiprocessing
