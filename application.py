@@ -3,6 +3,7 @@ from lib.http.server import Server
 
 app = Server()
 
+app.add_static_path("static")
 app.add_route("/", "GET", get_root)
 app.add_route("/brightness", "GET", get_brightness)
 app.add_route("/brightness", "POST", set_brightness)
